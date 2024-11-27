@@ -4,8 +4,8 @@ from downloading_modules_package import downloading_logic
 
 if __name__ == "__main__":
     """
-    v1.0
-
+    v1.1
+    
     Punto de entrada principal del script.
 
     Este script realiza las siguientes acciones:

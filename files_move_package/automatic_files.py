@@ -38,7 +38,6 @@ def moving_directories_files():
             difference_set = set(repo_list) - set(target_list)
             for folder in difference_set:
                 def on_rm_error(func, path, exc_info):
-                    # Cambia los permisos y vuelve a intentar eliminar
                     os.chmod(path, stat.S_IWRITE)
                     func(path)
                 shutil.copytree(repo + folder, target + folder)
@@ -55,10 +54,13 @@ def moving_directories_files():
             comma_index = module.index(':')
             origin_path = os.path.join(repo_paths.get(target), module.replace('\n','')[0:comma_index])
             target_path = os.path.join(target_paths.get(target), module.replace('\n','')[0:comma_index])
+            def on_rm_error(func, path, exc_info):
+                os.chmod(path, stat.S_IWRITE)
+                func(path)
             if os.path.isdir(target_path):
-                shutil.rmtree(target_path)
+                shutil.rmtree(target_path, onerror=on_rm_error)
             shutil.copytree(origin_path, target_path)
-            shutil.rmtree(target_path + '/.git')
+            shutil.rmtree(target_path + '/.git', onerror=on_rm_error)
             print(f"Se ha actualizado el módulo {module} en la ruta {target_paths.get(target)}.")
 
         # Escribe un registro de los módulos actualizados en seguimiento.txt
