@@ -17,7 +17,7 @@ def cloning_modules_from_github(repo, module):
     """
     # Determina la rama a clonar
     branch = repo[-5:-1]
-    response = subprocess.run(["git", "clone", f"https://github.com/Repo-Company/{module}.git", "--branch", branch], capture_output=True, text=True)
+    response = subprocess.run(["git", "clone", f"https://github.com/Repo_Company/{module}.git", "--branch", branch], capture_output=True, text=True)
     sleep(0.5)
     if response.returncode == 0:
         print(f'Módulo {module} descargado')

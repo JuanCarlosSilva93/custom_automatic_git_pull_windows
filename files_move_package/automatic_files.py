@@ -15,7 +15,7 @@ def moving_directories_files():
     3. Compara los directorios en las rutas del repositorio con los de las rutas de destino:
        - Copia nuevos directorios de las rutas del repositorio a las rutas de destino.
        - Elimina los directorios .git de los directorios copiados.
-    4. Lee el archivo .cambios.cvs para obtener una lista de módulos actualizados:
+    4. Lee el archivo cambios.cvs para obtener una lista de módulos actualizados:
        - Copia los módulos actualizados de las rutas del repositorio a las rutas de destino.
        - Elimina cualquier directorio existente en las rutas de destino antes de copiar.
     5. Escribe un registro de los módulos actualizados en un archivo seguimiento.txt en cada ruta de destino,
@@ -46,9 +46,9 @@ def moving_directories_files():
                 shutil.rmtree(target + folder + '/.git', onerror=on_rm_error)
                 print(f'Se ha creado el módulo {folder} en la ruta {target}')
 
-    # Lee los módulos actualizados de .cambios.cvs y los copia a las rutas de destino
+    # Lee los módulos actualizados de cambios.cvs y los copia a las rutas de destino
     for target in target_paths:
-        with open(repo_paths.get(target) + '.cambios.cvs', 'r') as open_file:
+        with open(repo_paths.get(target) + 'cambios.cvs', 'r') as open_file:
             updated_modules = open_file.readlines()
         for module in updated_modules:
             comma_index = module.index(':')

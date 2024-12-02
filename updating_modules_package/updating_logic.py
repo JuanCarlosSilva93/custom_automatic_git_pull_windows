@@ -1,3 +1,5 @@
+import sys
+
 from custom_paths import repo_paths
 import subprocess
 import os
@@ -13,7 +15,11 @@ def updating_modules_from_github():
 
     for repo in repo_paths().values():
         print(f'Actualizando fichero versión {repo[-5:-1]}')
-        file_list = [name for name in os.listdir(repo) if os.path.isdir(os.path.join(repo, name))]
+        try:
+            file_list = [name for name in os.listdir(repo) if os.path.isdir(os.path.join(repo, name))]
+        except FileNotFoundError:
+            print(f'Error, no se encuentra creada la ruta {repo}')
+            sys.exit()
         unchanged_modules = ['--- Módulos sin actualizar ---\n', ]
         updated_modules = ['\n\n\n--- Módulos actualizados ---', ]
         updated_modules_view = []
@@ -57,7 +63,10 @@ def updating_modules_from_github():
 
         with open(repo + 'cambios.txt', 'w') as write_file:
             write_file.writelines(write_lines)
-        with open(repo + '.cambios.cvs', 'w') as write_file:
+        with open(repo + 'cambios.cvs', 'w') as write_file:
             write_file.writelines(updated_modules_view)
+
+        route = repo + 'cambios.cvs'
+        os.system(f'attrib +h "{route.replace('/', '\\')}"')
 
         print(f'Módulos analizados: {total_modules}\n')
